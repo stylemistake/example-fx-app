@@ -30,3 +30,9 @@ export const createStore = () => {
   sagaMiddleware.run(rootSaga);
   return store;
 };
+
+export const createPureStore = () => (
+  configureStore({
+    reducer: rootReducer,
+  })
+);
