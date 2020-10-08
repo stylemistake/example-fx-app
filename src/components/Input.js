@@ -48,14 +48,20 @@ export class Input extends Component {
       }
     };
     this.handleKeyDown = e => {
-      const { onInput, onChange, onEnter } = this.props;
+      const { onInput, onChange, onEnter, onKeyDown } = this.props;
+      if (onKeyDown) {
+        onKeyDown(e, e.target.value);
+        if (e.defaultPrevented) {
+          return;
+        }
+      }
       if (e.key === 'Enter') {
         this.setEditing(false);
-        if (onChange) {
-          onChange(e, e.target.value);
-        }
         if (onInput) {
           onInput(e, e.target.value);
+        }
+        if (onChange) {
+          onChange(e, e.target.value);
         }
         if (onEnter) {
           onEnter(e, e.target.value);
@@ -105,6 +111,7 @@ export class Input extends Component {
       onInput,
       onChange,
       onEnter,
+      onKeyDown,
       value,
       ...rest
     } = props;

@@ -26,7 +26,7 @@ const SymbolDropdown = props => {
         }
       }}>
       {pockets.map(pocket => (
-        <option value={pocket.symbol}>
+        <option key={pocket.symbol} value={pocket.symbol}>
           {pocket.symbol}
         </option>
       ))}
@@ -54,9 +54,27 @@ const InputSection = props => {
           <Input
             className="ExchangeWidget__input"
             type="number"
-            inputmode="decimal"
+            inputMode="decimal"
             placeholder="0"
             value={toFixed(round(amount, 2), 2)}
+            onKeyDown={e => {
+              // NOTE: Not the prettiest solution, but hey, it works!
+              // Special key (e.g. backspace)
+              if (e.key.length > 1) {
+                return;
+              }
+              let input = e.target.value;
+              if (/^[0-9.]$/.test(e.key)) {
+                input += e.key;
+              }
+              console.log(input, e.key);
+              // Discard inputs that do not look like a decimal number.
+              if (!/^\d+(\.\d?\d?)?$/.test(input)) {
+                console.log('prevented');
+                e.preventDefault();
+                return;
+              }
+            }}
             onInput={e => {
               const number = parseFloat(e.target.value);
               if (Number.isFinite(number)) {
