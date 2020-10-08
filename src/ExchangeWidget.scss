@@ -1,0 +1,84 @@
+@use 'sass:color';
+@use './styles/base.scss';
+@use './styles/colors.scss' with (
+  $bg-lightness: -15%,
+  $fg-lightness: 10%,
+);
+
+$text-color: #fff;
+$background-color: colors.bg(colors.$blue);
+
+.ExchangeWidget {
+  margin: 1rem;
+  padding: 1rem;
+  min-width: 20rem;
+  max-width: 25rem;
+  min-height: 4rem;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.4);
+  color: $text-color;
+  background-color: $background-color;
+}
+
+.ExchangeWidget__divider {
+  margin: 0.75rem -1rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.ExchangeWidget__label {
+  font-size: 0.9em;
+  color: rgba($text-color, 0.75);
+}
+
+.ExchangeWidget__error {
+  margin: -0.25em;
+  padding: 0.25em 0.5em;
+  border-radius: 0.75em;
+  color: #fff;
+  background-color: colors.bg(colors.$red);
+}
+
+.ExchangeWidget__SymbolDropdown {
+  // border: 0;
+  // color: $text-color;
+  // background-color: transparent;
+  padding: 0.125rem 0.25rem;
+  font-size: 1.5rem;
+}
+
+.ExchangeWidget__input {
+  width: 100%;
+  text-align: right;
+  font-size: 1.5rem;
+  color: $text-color;
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+
+  // Remove spinners
+  -moz-appearance: textfield;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.ExchangeWidget__input::placeholder {
+  color: rgba($text-color, 0.5);
+}
+
+.ExchangeWidget__button {
+  color: #000;
+  background-color: #fff;
+  border: 0;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.25);
+  transition: box-shadow 200ms;
+  cursor: pointer;
+}
+
+.ExchangeWidget__button--disabled,
+.ExchangeWidget__button:disabled {
+  opacity: 0.75;
+  cursor: default;
+}

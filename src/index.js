@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { Layout } from './Layout';
+import { createStore, Provider } from './store';
+import './styles/main.scss';
+import '@fortawesome/fontawesome-free/css/all.css';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+let rootNode;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const store = createStore();
+
+const renderApp = () => {
+  if (!rootNode) {
+    rootNode = document.getElementById('root');
+  }
+  const vNode = (
+    <React.StrictMode>
+      <Provider store={store}>
+        <Layout />
+      </Provider>
+    </React.StrictMode>
+  );
+  ReactDOM.render(vNode, rootNode);
+};
+
+const setupApp = () => {
+  // Delay setup
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupApp);
+    return;
+  }
+  // Subscribe for state updates
+  store.subscribe(renderApp);
+  // Do an initial render
+  renderApp();
+};
+
+setupApp();
